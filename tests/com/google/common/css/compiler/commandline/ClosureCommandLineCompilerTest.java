@@ -16,6 +16,7 @@
 package com.google.common.css.compiler.commandline;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import com.google.common.css.ExitCodeHandler;
@@ -66,7 +67,6 @@ public class ClosureCommandLineCompilerTest {
   }
 
   @Test
-
   public void testAllowDefPropagationDefaultsToTrue() throws Exception {
     ClosureCommandLineCompiler.Flags flags =
         ClosureCommandLineCompiler.parseArgs(new String[] {"/dev/null"}, EXIT_CODE_HANDLER);
@@ -75,7 +75,14 @@ public class ClosureCommandLineCompilerTest {
   }
 
   @Test
+  public void testAllowDuplicateDeclarationsDefaultsToFalse() throws Exception {
+    ClosureCommandLineCompiler.Flags flags =
+            ClosureCommandLineCompiler.parseArgs(new String[] {"/dev/null"}, EXIT_CODE_HANDLER);
+    JobDescription jobDescription = flags.createJobDescription();
+    assertFalse(jobDescription.allowDuplicateDeclarations);
+  }
 
+  @Test
   public void testEmptyImportBlocks() throws Exception {
     // See b/29995881
     ErrorManager errorManager = new NewFunctionalTestBase.TestErrorManager(new String[0]);
