@@ -170,6 +170,10 @@ public class ClosureCommandLineCompiler extends DefaultCommandLineCompiler {
         "Specify an unrecognized property to whitelist")
     private List<String> allowedUnrecognizedProperties = Lists.newArrayList();
 
+    @Option(name = "--allowed-at-rule", usage =
+      "Specify an @-rule to whitelist, like @supports")
+    private List<String> additionalAtRules = Lists.newArrayList();
+
     @Option(name = "--allow-unrecognized-properties", usage =
         "Allow unrecognized properties.")
     private boolean allowUnrecognizedProperties = false;
@@ -240,8 +244,10 @@ public class ClosureCommandLineCompiler extends DefaultCommandLineCompiler {
       builder.setAllowedNonStandardFunctions(allowedNonStandardFunctions);
       builder.setAllowedUnrecognizedProperties(allowedUnrecognizedProperties);
       builder.setAllowUnrecognizedProperties(allowUnrecognizedProperties);
+      builder.setAllowAtRules(additionalAtRules);
       builder.setVendor(vendor);
       builder.setAllowKeyframes(true);
+      builder.setAllowSupports(true);
       builder.setAllowWebkitKeyframes(true);
       builder.setProcessDependencies(true);
       builder.setExcludedClassesFromRenaming(excludedClassesFromRenaming);
