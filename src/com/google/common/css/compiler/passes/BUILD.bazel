@@ -96,7 +96,7 @@ java_library(
         "UnsafeMergeRulesetNodes.java",
         "ValidatePropertyValues.java",
         "VerifyRecognizedProperties.java",
-        "WarnOnCustomProperty.java",
+#        "WarnOnCustomProperty.java",
     ],
     visibility = ["//visibility:public"],
     deps = [
