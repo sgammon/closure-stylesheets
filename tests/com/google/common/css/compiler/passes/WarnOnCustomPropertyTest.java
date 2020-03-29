@@ -18,6 +18,7 @@ package com.google.common.css.compiler.passes;
 
 import com.google.common.css.compiler.ast.testing.NewFunctionalTestBase;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -33,12 +34,12 @@ public class WarnOnCustomPropertyTest extends NewFunctionalTestBase {
     pass.runPass();
   }
 
-  @Test
+  @Test @Ignore
   public void testWarnsOnDeclaration() throws Exception {
     parseAndRun(":root { --test: 123; }", WarnOnCustomProperty.DECLARATION_WARNING_MSG);
   }
 
-  @Test
+  @Test @Ignore
   public void testWarnsOnReference() throws Exception {
     parseAndRun(":root { background: var(--test); }", WarnOnCustomProperty.REFERENCE_WARNING_MSG);
   }

@@ -158,6 +158,10 @@ public class ClosureCommandLineCompiler extends DefaultCommandLineCompiler {
         + " from one file to propagate to other files.")
     private boolean allowDefPropagation = true;
 
+    @Option(name = "--allow-duplicate-declarations", usage = "Allow duplicate"
+      + " declarations without needing @alternate")
+    private boolean allowDuplicateDeclarations = false;
+
     @Option(name = "--allow-unrecognized-functions", usage =
         "Allow unrecognized functions.")
     private boolean allowUnrecognizedFunctions = false;
@@ -169,6 +173,10 @@ public class ClosureCommandLineCompiler extends DefaultCommandLineCompiler {
     @Option(name = "--allowed-unrecognized-property", usage =
         "Specify an unrecognized property to whitelist")
     private List<String> allowedUnrecognizedProperties = Lists.newArrayList();
+
+    @Option(name = "--allowed-at-rule", usage =
+      "Specify an @-rule to whitelist, like @supports")
+    private List<String> additionalAtRules = Lists.newArrayList();
 
     @Option(name = "--allow-unrecognized-properties", usage =
         "Allow unrecognized properties.")
@@ -236,12 +244,15 @@ public class ClosureCommandLineCompiler extends DefaultCommandLineCompiler {
       builder.setCopyrightNotice(copyrightNotice);
       builder.setTrueConditionNames(trueConditions);
       builder.setAllowDefPropagation(allowDefPropagation);
+      builder.setAllowDuplicateDeclarations(allowDuplicateDeclarations);
       builder.setAllowUnrecognizedFunctions(allowUnrecognizedFunctions);
       builder.setAllowedNonStandardFunctions(allowedNonStandardFunctions);
       builder.setAllowedUnrecognizedProperties(allowedUnrecognizedProperties);
       builder.setAllowUnrecognizedProperties(allowUnrecognizedProperties);
+      builder.setAllowAtRules(additionalAtRules);
       builder.setVendor(vendor);
       builder.setAllowKeyframes(true);
+      builder.setAllowSupports(true);
       builder.setAllowWebkitKeyframes(true);
       builder.setProcessDependencies(true);
       builder.setExcludedClassesFromRenaming(excludedClassesFromRenaming);

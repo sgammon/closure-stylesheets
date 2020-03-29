@@ -51,14 +51,17 @@ public class JobDescriptionBuilder {
   boolean simplifyCss;
   boolean eliminateDeadStyles;
   boolean allowDefPropagation;
+  boolean allowDuplicateDeclarations;
   boolean allowUnrecognizedFunctions;
   Set<String> allowedNonStandardFunctions;
   boolean allowUnrecognizedProperties;
   Set<String> allowedUnrecognizedProperties;
+  Set<String> allowedAtRules;
   boolean allowUndefinedConstants;
   boolean allowMozDocument;
   Vendor vendor;
   boolean allowKeyframes;
+  boolean allowSupports;
   boolean allowWebkitKeyframes;
   boolean processDependencies;
   String cssRenamingPrefix;
@@ -90,10 +93,12 @@ public class JobDescriptionBuilder {
     this.simplifyCss = false;
     this.eliminateDeadStyles = false;
     this.allowDefPropagation = false;
+    this.allowDuplicateDeclarations = false;
     this.allowUnrecognizedFunctions = false;
     this.allowedNonStandardFunctions = Sets.newHashSet();
     this.allowUnrecognizedProperties = false;
     this.allowedUnrecognizedProperties = Sets.newHashSet();
+    this.allowedAtRules = Sets.newHashSet();
     this.allowUndefinedConstants = false;
     this.allowMozDocument = false;
     this.vendor = null;
@@ -131,7 +136,9 @@ public class JobDescriptionBuilder {
     this.allowUnrecognizedFunctions = jobToCopy.allowUnrecognizedFunctions;
     this.allowedNonStandardFunctions =
         ImmutableSet.copyOf(jobToCopy.allowedNonStandardFunctions);
-    this.allowUnrecognizedProperties = jobToCopy.allowUnrecognizedProperties;
+    this.allowedAtRules = Sets.newHashSet(jobToCopy.allowedAtRules);
+    this.allowUnrecognizedProperties =
+        jobToCopy.allowUnrecognizedProperties;
     this.allowedUnrecognizedProperties =
         ImmutableSet.copyOf(jobToCopy.allowedUnrecognizedProperties);
     this.allowUndefinedConstants = jobToCopy.allowUndefinedConstants;
@@ -347,6 +354,13 @@ public class JobDescriptionBuilder {
     return this;
   }
 
+  public JobDescriptionBuilder setAllowAtRules(
+    List<String> atRuleNames) {
+    checkJobIsNotAlreadyCreated();
+    this.allowedAtRules.addAll(atRuleNames);
+    return this;
+  }
+
   public JobDescriptionBuilder allowUnrecognizedProperties() {
     return setAllowUnrecognizedProperties(true);
   }
@@ -370,8 +384,18 @@ public class JobDescriptionBuilder {
     return this;
   }
 
+  public JobDescriptionBuilder setAllowSupports(boolean allow) {
+    checkJobIsNotAlreadyCreated();
+    this.allowSupports = allow;
+    return this;
+  }
+
   public JobDescriptionBuilder allowKeyframes() {
     return setAllowKeyframes(true);
+  }
+
+  public JobDescriptionBuilder allowSupports() {
+    return setAllowSupports(true);
   }
 
   public JobDescriptionBuilder setAllowWebkitKeyframes(boolean allow) {
@@ -424,6 +448,16 @@ public class JobDescriptionBuilder {
     return setAllowDefPropagation(true);
   }
 
+  public JobDescriptionBuilder setAllowDuplicateDeclarations(boolean allow) {
+    checkJobIsNotAlreadyCreated();
+    this.allowDuplicateDeclarations = allow;
+    return this;
+  }
+
+  public JobDescriptionBuilder allowDuplicateDeclarations() {
+    return setAllowDuplicateDeclarations(true);
+  }
+
   public JobDescriptionBuilder setAllowUndefinedConstants(boolean allow) {
     checkJobIsNotAlreadyCreated();
     this.allowUndefinedConstants = allow;
@@ -470,7 +504,6 @@ public class JobDescriptionBuilder {
       return job;
     }
 
-    Set<String> allowedAtRules = Sets.newHashSet();
     if (allowKeyframes || allowWebkitKeyframes) {
       allowedAtRules.add("keyframes");
       allowedAtRules.add("-moz-keyframes");
@@ -481,13 +514,16 @@ public class JobDescriptionBuilder {
     if (allowMozDocument) {
       allowedAtRules.add("-moz-document");
     }
+    if (allowSupports) {
+      allowedAtRules.add("supports");
+    }
 
 
     job = new JobDescription(inputs,
         copyrightNotice, outputFormat, inputOrientation, outputOrientation,
         optimize, trueConditionNames, useInternalBidiFlipper, swapLtrRtlInUrl,
         swapLeftRightInUrl, simplifyCss, eliminateDeadStyles,
-        allowDefPropagation, allowUnrecognizedFunctions, allowedNonStandardFunctions,
+        allowDefPropagation, allowDuplicateDeclarations, allowUnrecognizedFunctions, allowedNonStandardFunctions,
         allowUnrecognizedProperties, allowedUnrecognizedProperties, allowUndefinedConstants,
         allowMozDocument, vendor,
         allowKeyframes, allowWebkitKeyframes, processDependencies,
