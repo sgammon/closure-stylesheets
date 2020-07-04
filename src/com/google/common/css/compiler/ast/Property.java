@@ -205,6 +205,7 @@ public final class Property {
         builder("font-language-override"),
         builder("font-size"),
         builder("font-size-adjust"),
+        builder("font-smooth"),
         builder("font-stretch"),
         builder("font-style"),
         builder("font-synthesis"),
