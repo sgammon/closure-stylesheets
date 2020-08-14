@@ -71,6 +71,7 @@ public final class Property {
         builder("animation-play-state"),
         builder("animation-timing-function"),
         builder("azimuth"),
+        builder("backdrop-filter"),
         builder("backface-visibility"),
         builder("background-attachment"),
         builder("background-clip"),
