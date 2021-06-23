@@ -511,6 +511,7 @@ public final class Property {
         builder("richness"),
         builder("right"),
         builder("scroll-behavior"),
+        builder("scroll-snap-align"),
         builder("scrollbar-3dlight-color").setVendor(Vendor.MICROSOFT),
         builder("scrollbar-arrow-color").setVendor(Vendor.MICROSOFT),
         builder("scrollbar-base-color").setVendor(Vendor.MICROSOFT),
