@@ -79,7 +79,7 @@ public class PassRunner {
     new CreateComponentNodes(cssTree.getMutatingVisitController(),
         errorManager).runPass();
     new ValidatePropertyValues(cssTree.getVisitController(), errorManager).runPass();
-    new WarnOnCustomProperty(cssTree.getVisitController(), errorManager).runPass();
+//    new WarnOnCustomProperty(cssTree.getVisitController(), errorManager).runPass();
 
     new HandleUnknownAtRuleNodes(cssTree.getMutatingVisitController(),
         errorManager, job.allowedAtRules,
@@ -143,9 +143,11 @@ public class PassRunner {
           cssTree.getMutatingVisitController()).runPass();
     }
     if (job.eliminateDeadStyles) {
-      // Report errors for duplicate declarations
-      new DisallowDuplicateDeclarations(
-          cssTree.getVisitController(), errorManager).runPass();
+      if (!job.allowDuplicateDeclarations) {
+        // Report errors for duplicate declarations
+        new DisallowDuplicateDeclarations(
+                cssTree.getVisitController(), errorManager).runPass();
+      }
       // Split rules by selector and declaration.
       new SplitRulesetNodes(cssTree.getMutatingVisitController()).runPass();
       // Dead code elimination.
