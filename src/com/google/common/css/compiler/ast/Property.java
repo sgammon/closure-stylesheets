@@ -200,6 +200,7 @@ public final class Property {
         builder("flood-color").isSvgOnly(),
         builder("flood-opacity").isSvgOnly(),
         builder("font"),
+        builder("font-display"),
         builder("font-family"),
         builder("font-feature-settings"),
         builder("font-kerning"),
